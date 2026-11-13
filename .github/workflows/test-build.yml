@@ -13,9 +13,14 @@ jobs:
           cache: npm
       - uses: dtolnay/rust-toolchain@stable
       - run: npm ci
-      - run: npm run tauri build -- --no-bundle
+      - run: npm run tauri build -- --config src-tauri/tauri.test.conf.json
       - uses: actions/upload-artifact@v4
         with:
           name: WinDisplay-test-x64
           path: src-tauri/target/release/WinDisplay.exe
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WinDisplay-test-installer-x64
+          path: src-tauri/target/release/bundle/nsis/*-setup.exe
           if-no-files-found: error
